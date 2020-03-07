@@ -1,0 +1,79 @@
+{
+  "_meta": {
+    "sources": [
+      "loopback/common/models",
+      "loopback/server/models",
+      "../common/models",
+      "./models"
+    ],
+    "mixins": [
+      "loopback/common/mixins",
+      "loopback/server/mixins",
+      "../common/mixins",
+      "./mixins"
+    ]
+  },
+  "User": {
+    "dataSource": "mongoDS",
+    "public": false
+  },
+  "AccessToken": {
+    "dataSource": "mongoDS",
+    "public": false
+  },
+  "ACL": {
+    "dataSource": "mongoDS",
+    "public": false
+  },
+  "RoleMapping": {
+    "dataSource": "mongoDS",
+    "public": false,
+    "options": {
+      "strictObjectIDCoercion": true
+    }
+  },
+  "Role": {
+    "dataSource": "mongoDS",
+    "public": false
+  },
+  "BackofficeUser": {
+    "dataSource": "mongoDS",
+    "public": true,
+    "options": {
+      "remoting": {
+        "sharedMethods": {
+          "*": false,
+          "login": true,
+          "logout": true,
+          "create": true,
+          "findById": true
+        }
+      }
+    }
+  },
+  "Sujet": {
+    "dataSource": "mongoDS",
+    "public": true,
+    "options": {
+      "remoting": {
+        "sharedMethods": {
+          "*": false,
+          "create": true,
+          "findSujet": true
+        }
+      }
+    }
+  },
+  "Vote": {
+    "dataSource": "mongoDS",
+    "public": true,
+    "options": {
+      "remoting": {
+        "sharedMethods": {
+          "*": false,
+          "addVote": true
+        }
+      }
+    }
+  }
+}

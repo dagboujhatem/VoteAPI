@@ -1,0 +1,19 @@
+{
+  "name": "BackofficeUser",
+  "base": "User",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {},
+  "validations": [],
+  "relations": {
+    "votes": {
+      "type": "hasMany",
+      "model": "Vote",
+      "foreignKey": "voteId"
+    }
+  },
+  "acls": [],
+  "methods": {}
+}

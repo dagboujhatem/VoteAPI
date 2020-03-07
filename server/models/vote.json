@@ -1,0 +1,43 @@
+{
+  "name": "Vote",
+  "base": "PersistedModel",
+  "idInjection": true,
+  "options": {
+    "validateUpsert": true
+  },
+  "properties": {
+    "voteValue": {
+      "type": "boolean"
+    },
+    "createdAt": {
+      "type": "date"
+    }
+  },
+  "validations": [],
+  "relations": {
+    "backofficeUser": {
+      "type": "belongsTo",
+      "model": "BackofficeUser",
+      "foreignKey": "backofficeUserId"
+    },
+    "sujet": {
+      "type": "belongsTo",
+      "model": "Sujet",
+      "foreignKey": "sujetId"
+    }
+  },
+  "acls": [
+    {
+      "principalType": "ROLE",
+      "principalId": "$everyone",
+      "permission": "DENY"
+    },
+    {
+      "principalType": "ROLE",
+      "principalId": "$authenticated",
+      "permission": "ALLOW",
+      "property": "addVote"
+    }
+  ],
+  "methods": {}
+}
