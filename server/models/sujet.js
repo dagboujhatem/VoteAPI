@@ -14,20 +14,44 @@ module.exports = function(Sujet) {
   Sujet.findSujet = function(BodyData, cb) {
 
     Sujet.find({include: { relation: 'votes'}})
-      .then( (sujets) => {
-        let response = [];
-
-        sujets.forEach((sujet) => {
-          let sujetObject = {};
-          sujetObject['titre'] = sujet.titre;
-          sujetObject['description'] = sujet.description;
-          /* calculer if User a le droit de voter */
-          /* calculer le pourcentage de vote */
-          /* added sujet to response */
-          response.push(sujetObject);
-        });
-
-        cb(null, response);
+      .then( (sujetsFound) => {
+        if (sujetsFound !== undefined && sujetsFound !== null) {
+          const sujetsJSON = JSON.parse(JSON.stringify(sujetsFound));
+          let response = [];
+          sujetsJSON.forEach((sujet) => {
+            let sujetObject = {
+              id: sujet.id,
+              titre: sujet.titre,
+              description: sujet.description
+            };
+            if (sujet.votes !== undefined && sujet.votes  !== null && sujet.votes.length > 0) {
+              /* calculer if User a le droit de voter */
+              const userVoted = sujet.votes.filter(vote => {
+                return  vote.backofficeUserId == BodyData.backofficeUserId;
+                });
+              if (userVoted !== undefined && userVoted !== null){
+                sujetObject['userVotedStatus'] = true ;
+              } else {
+                sujetObject['userVotedStatus'] = false ;
+              }
+              /* calculer le pourcentage de vote */
+              const votedTrue = sujet.votes.filter(vote => { return vote.voteValue == true;});
+              sujetObject['Score'] = (votedTrue.length / sujet.votes.length) * 100;
+              sujetObject['hasVote'] = true;
+            }
+            else{
+              sujetObject['userVotedStatus'] = true ;
+              sujetObject['Score'] = 0 ;
+              sujetObject['hasVote'] = false;
+            }
+            /* added sujet to response */
+            response.push(sujetObject);
+          });
+          cb(null, response);
+        }
+        else{
+          cb(null, {});
+        }
       }).catch((error) => {
       cb(error);
     });
