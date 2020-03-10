@@ -22,27 +22,27 @@ module.exports = function(Sujet) {
             let sujetObject = {
               id: sujet.id,
               titre: sujet.titre,
-              description: sujet.description
-            };
-            if (sujet.votes !== undefined && sujet.votes  !== null && sujet.votes.length > 0) {
+              description: sujet.description};
+            if (sujet.votes !== undefined && sujet.votes !== null &&
+              sujet.votes.length > 0) {
               /* calculer if User a le droit de voter */
               const userVoted = sujet.votes.filter(vote => {
-                return  vote.backofficeUserId == BodyData.backofficeUserId;
+                return  vote.backofficeUserId === BodyData.backofficeUserId;
                 });
               if (userVoted !== undefined && userVoted !== null){
-                sujetObject['userVotedStatus'] = true ;
+                sujetObject['userVotedStatus'] = true;
               } else {
-                sujetObject['userVotedStatus'] = false ;
+                sujetObject['userVotedStatus'] = false;
               }
               /* calculer le pourcentage de vote */
-              const votedTrue = sujet.votes.filter(vote => { return vote.voteValue == true;});
+              const votedTrue = sujet.votes.filter(vote => {
+                return vote.voteValue === true;
+              });
               sujetObject['score'] = (votedTrue.length / sujet.votes.length) * 100;
-              sujetObject['hasVote'] = true;
             }
-            else{
-              sujetObject['userVotedStatus'] = true ;
-              sujetObject['score'] = 0 ;
-              sujetObject['hasVote'] = false;
+            else {
+              sujetObject['userVotedStatus'] = false;
+              sujetObject['score'] = 0;
             }
             /* added sujet to response */
             response.push(sujetObject);
