@@ -36,12 +36,12 @@ module.exports = function(Sujet) {
               }
               /* calculer le pourcentage de vote */
               const votedTrue = sujet.votes.filter(vote => { return vote.voteValue == true;});
-              sujetObject['Score'] = (votedTrue.length / sujet.votes.length) * 100;
+              sujetObject['score'] = (votedTrue.length / sujet.votes.length) * 100;
               sujetObject['hasVote'] = true;
             }
             else{
               sujetObject['userVotedStatus'] = true ;
-              sujetObject['Score'] = 0 ;
+              sujetObject['score'] = 0 ;
               sujetObject['hasVote'] = false;
             }
             /* added sujet to response */
@@ -67,7 +67,7 @@ module.exports = function(Sujet) {
       returns: {
         arg: 'bodyResponse', type: 'object', root: true
       },
-      http: {verb: 'get'},
+      http: {verb: 'post'},
     }
   );
 };
